@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .task-form {
+            margin: 20px 0;
+            padding: 10px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .task-form input {
+            margin-right: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .task-form button {
+            padding: 10px 20px;
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .task-form button:hover {
+            background: #555;
+        }
+
+        .task-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .task-list li {
+            padding: 10px;
+            margin: 10px 0;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .task-list .completed {
+            background: #d4edda;
+        }
+
+        .task-list .pending {
+            background: #f8d7da;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .complete-btn {
+            background: #28a745;
+            color: #fff;
+        }
+
+        .complete-btn:hover {
+            background: #218838;
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: #fff;
+        }
+
+        .remove-btn:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Task Manager</h1>
+        </header>
+        <main>
+            <form action="/add_task" method="post" class="task-form">
+                <input type="text" name="name" placeholder="Task name" required>
+                <input type="text" name="category" placeholder="Category (Work/Personal)" required>
+                <button type="submit">Add Task</button>
+            </form>
+            <ul class="task-list">
+                {% for task in tasks %}
+                    <li class="{{ task.status }}">
+                        {{ task.name }} - {{ task.category }}
+                        <form action="/complete_task/{{ loop.index0 }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn complete-btn">Complete</button>
+                        </form>
+                        <form action="/remove_task/{{ loop.index0 }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn remove-btn">Remove</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        </main>
+    </div>
+</body>
+</html>
